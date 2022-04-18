@@ -1,17 +1,16 @@
-package com.whatweeat.config;
+package com.whatweeat.wee.config;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
 
 @Configuration
-@RequiredArgsConstructor @Getter
+@RequiredArgsConstructor @Data
 @PropertySource("classpath:kakao.properties")
 public class KakaoConfig {
     private final Environment env;
@@ -21,7 +20,10 @@ public class KakaoConfig {
     private String oauthBase;
     private String apiBase;
     private String oauthUri;
+    private String oauthAuthorise;
     private String oauthCsec;
+    private String apiLogout;
+    private String apiTokenInfo;
 
     @PostConstruct
     public void initValue() {
@@ -30,7 +32,12 @@ public class KakaoConfig {
         oauthBase = env.getProperty("base.oauth");
         apiBase = env.getProperty("base.api");
         oauthUri = env.getProperty("oauth.uri");
+        oauthAuthorise = env.getProperty("oauth.authorise");
         oauthCsec = env.getProperty("oauth.csec");
+        apiLogout = env.getProperty("api.logout");
+        apiTokenInfo = env.getProperty("api.tokenInfo");
+
+        System.out.println("this = " + this);
     }
 
     public boolean hasText() {
@@ -39,6 +46,9 @@ public class KakaoConfig {
                 && StringUtils.hasText(oauthBase)
                 && StringUtils.hasText(apiBase)
                 && StringUtils.hasText(oauthUri)
-                && StringUtils.hasText(oauthCsec);
+                && StringUtils.hasText(oauthAuthorise)
+                && StringUtils.hasText(oauthCsec)
+                && StringUtils.hasText(apiLogout)
+                && StringUtils.hasText(apiTokenInfo);
     }
 }
