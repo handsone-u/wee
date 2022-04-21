@@ -1,4 +1,4 @@
-package com.whatweeat.wee.entity.enums;
+package com.whatweeat.wwe.entity.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

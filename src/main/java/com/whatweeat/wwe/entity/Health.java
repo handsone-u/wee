@@ -1,4 +1,4 @@
-package com.whatweeat.wee.entity;
+package com.whatweeat.wwe.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,20 +7,20 @@ import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor @Getter
-public class Alcohol {
+public class Health {
     @Id @GeneratedValue
-    @Column(name = "ALCOHOL_ID")
+    @Column(name = "HEALTH_ID")
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MENU_ID")
     private Menu menu;
 
-    @Column(name = "IS_ALCOHOL")
-    private Boolean isAlcohol;
+    @Column(name = "IS_HEALTHY")
+    private Boolean isHealthy;
 
-    public Alcohol(Menu menu, Boolean isAlcohol) {
+    public Health(Menu menu, Boolean isHealthy) {
         this.menu = menu;
-        this.isAlcohol = isAlcohol;
+        this.isHealthy = isHealthy;
     }
 }

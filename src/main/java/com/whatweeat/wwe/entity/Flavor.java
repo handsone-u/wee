@@ -1,6 +1,6 @@
-package com.whatweeat.wee.entity;
+package com.whatweeat.wwe.entity;
 
-import com.whatweeat.wee.entity.enums.FlavorName;
+import com.whatweeat.wwe.entity.enums.FlavorName;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -20,4 +20,9 @@ public class Flavor {
     @Enumerated(EnumType.STRING)
     @Column(name = "FLAVOR_NAME")
     private FlavorName flavorName;
+
+    public Flavor(Menu menu, FlavorName flavorName) {
+        this.menu = menu;
+        this.flavorName = flavorName;
+    }
 }

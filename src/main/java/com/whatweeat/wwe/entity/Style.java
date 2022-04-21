@@ -1,4 +1,4 @@
-package com.whatweeat.wee.entity;
+package com.whatweeat.wwe.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

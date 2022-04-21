@@ -1,4 +1,4 @@
-package com.whatweeat.wee.controller.response;
+package com.whatweeat.wwe.controller.response;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

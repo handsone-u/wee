@@ -1,6 +1,6 @@
-package com.whatweeat.wee.entity;
+package com.whatweeat.wwe.entity;
 
-import com.whatweeat.wee.entity.enums.NationName;
+import com.whatweeat.wwe.entity.enums.NationName;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -20,4 +20,9 @@ public class Nation {
     @Enumerated(EnumType.STRING)
     @Column(name = "NATION_NAME")
     private NationName nationName;
+
+    public Nation(Menu menu, NationName nationName) {
+        this.menu = menu;
+        this.nationName = nationName;
+    }
 }

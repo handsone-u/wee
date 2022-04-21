@@ -1,6 +1,6 @@
-package com.whatweeat.config;
+package com.whatweeat.wwe.config;
 
-import com.whatweeat.wee.config.KakaoConfig;
+import com.whatweeat.wwe.config.KakaoConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

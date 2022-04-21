@@ -1,6 +1,6 @@
-package com.whatweeat.wee.entity;
+package com.whatweeat.wwe.entity;
 
-import com.whatweeat.wee.entity.enums.ExcludeName;
+import com.whatweeat.wwe.entity.enums.ExcludeName;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -20,4 +20,9 @@ public class ExcludeFilter {
     @Enumerated(EnumType.STRING)
     @Column(name = "EXCLUDE_NAME")
     private ExcludeName excludeName;
+
+    public ExcludeFilter(Menu menu, ExcludeName excludeName) {
+        this.menu = menu;
+        this.excludeName = excludeName;
+    }
 }

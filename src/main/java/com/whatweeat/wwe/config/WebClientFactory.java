@@ -1,4 +1,4 @@
-package com.whatweeat.wee.config;
+package com.whatweeat.wwe.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
