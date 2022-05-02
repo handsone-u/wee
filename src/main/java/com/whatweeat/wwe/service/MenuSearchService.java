@@ -23,24 +23,46 @@ public class MenuSearchService {
 
     // Count 1,-1, exclude
     public List<MenuPoint> searchModel1(MenuDto menuDto) {
-        log.info(menuDto.toString());
+        log.info("search V1... {}",menuDto.toString());
         List<Menu> exclude = menuRepository.findExceptExcludeNames(menuDto.getExcludeNames());
         ArrayList<MenuPoint> result = new ArrayList<>();
 
         for (Menu menu : exclude) {
             int nationCount = matchNationNames(menu.getNations(), menuDto.getNationNames());
             int flavorCount = matchFlavors(menu.getFlavors(), menuDto.getFlavorNames());
-            int styleCount = matchStyle(menu.getStyle(), menuDto.getIsSoup(), menuDto.getIsNoodle(), menuDto.getIsRice());
+            double styleCount = matchStyleV0(menu.getStyle(), menuDto.getIsSoup(), menuDto.getIsNoodle(), menuDto.getIsRice(), 1);
             int healthCount = matchHealth(menu.getHealth(), menuDto.getIsHealthy());
             int instantCount = matchInstant(menu.getInstant(), menuDto.getIsInstant());
             int alcoholCount = matchAlcohol(menu.getAlcohol(), menuDto.getIsAlcohol());
             int richCount = matchRich(menu.getRich(), menuDto.getIsRich());
-            log.info("[{}]:{},{},{},{},{},{},{}", menu.getId(),
-                    nationCount, flavorCount, styleCount, healthCount, instantCount, alcoholCount, richCount);
-            int point = nationCount + flavorCount + styleCount + healthCount + instantCount + alcoholCount + richCount;
+            double point = nationCount + flavorCount + styleCount + healthCount + instantCount + alcoholCount + richCount;
+            log.info("{} = {}", menu.getMenuName(), point);
+            log.info("{}, {}, {}, {}, {}, {}, {}", nationCount, flavorCount, styleCount, healthCount, instantCount, alcoholCount, richCount);
             result.add(new MenuPoint(menu.getId(), menu.getMenuName(), point));
         }
 
+        return result;
+    }
+
+    // 면, 국물, 밥 : 가중치 1.5
+    public List<MenuPoint> searchModel2(MenuDto menuDto) {
+        log.info("search V2... {}", menuDto.toString());
+        List<Menu> exclude = menuRepository.findExceptExcludeNames(menuDto.getExcludeNames());
+        ArrayList<MenuPoint> result = new ArrayList<>();
+
+        for (Menu menu : exclude) {
+            int nationCount = matchNationNames(menu.getNations(), menuDto.getNationNames());
+            int flavorCount = matchFlavors(menu.getFlavors(), menuDto.getFlavorNames());
+            double styleCount = matchStyleV0(menu.getStyle(), menuDto.getIsSoup(), menuDto.getIsNoodle(), menuDto.getIsRice(), 1.5);
+            int healthCount = matchHealth(menu.getHealth(), menuDto.getIsHealthy());
+            int instantCount = matchInstant(menu.getInstant(), menuDto.getIsInstant());
+            int alcoholCount = matchAlcohol(menu.getAlcohol(), menuDto.getIsAlcohol());
+            int richCount = matchRich(menu.getRich(), menuDto.getIsRich());
+            double point = nationCount + flavorCount + styleCount + healthCount + instantCount + alcoholCount + richCount;
+            log.info("{} = {}", menu.getMenuName(), point);
+            log.info("{}, {}, {}, {}, {}, {}, {}", nationCount, flavorCount, styleCount, healthCount, instantCount, alcoholCount, richCount);
+            result.add(new MenuPoint(menu.getId(), menu.getMenuName(), point));
+        }
         return result;
     }
 
@@ -64,15 +86,15 @@ public class MenuSearchService {
         return result;
     }
 
-    public int matchStyle(Style style, Boolean isSoup, Boolean isNoodle, Boolean isRice) {
+    public double matchStyleV0(Style style, Boolean isSoup, Boolean isNoodle, Boolean isRice, double weight) {
         if(style==null) return 0;
-        int result = 0;
-        if(style.getIsSoup()==isSoup) result++;
-        else result--;
-        if(style.getIsNoodle()==isNoodle) result++;
-        else result--;
-        if(style.getIsRice()==isRice) result++;
-        else result--;
+        double result = 0;
+        if(style.getIsSoup()==isSoup) result+=weight;
+        else result-=weight;
+        if(style.getIsNoodle()==isNoodle) result+=weight;
+        else result-=weight;
+        if(style.getIsRice()==isRice) result+=weight;
+        else result-=weight;
         return result;
     }
 
