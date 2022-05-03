@@ -16,17 +16,17 @@ public class Style {
     @JoinColumn(name = "MENU_ID")
     private Menu menu;
 
-    @Column(name = "IS_RICE")
-    private Boolean isRice;
     @Column(name = "IS_SOUP")
     private Boolean isSoup;
     @Column(name = "IS_NOODLE")
     private Boolean isNoodle;
+    @Column(name = "IS_RICE")
+    private Boolean isRice;
 
-    public Style(Menu menu, Boolean isRice, Boolean isSoup, Boolean isNoodle) {
+    public Style(Menu menu, Boolean isSoup, Boolean isNoodle, Boolean isRice) {
         this.menu = menu;
-        this.isRice = isRice;
         this.isSoup = isSoup;
         this.isNoodle = isNoodle;
+        this.isRice = isRice;
     }
 }
