@@ -1,11 +1,10 @@
-package com.whatweeat.wee.controller;
+package com.whatweeat.wwe.controller;
 
-import com.sun.xml.bind.v2.TODO;
-import com.whatweeat.wee.config.KakaoConfig;
-import com.whatweeat.wee.controller.request.AccessTokenRequest;
-import com.whatweeat.wee.controller.response.AccessTokenResponse;
-import com.whatweeat.wee.controller.response.TokenInfo;
-import com.whatweeat.wee.controller.response.UserInfo;
+import com.whatweeat.wwe.config.KakaoConfig;
+import com.whatweeat.wwe.controller.request.AccessTokenRequest;
+import com.whatweeat.wwe.controller.response.AccessTokenResponse;
+import com.whatweeat.wwe.controller.response.TokenInfo;
+import com.whatweeat.wwe.controller.response.UserInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -20,7 +19,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Mono;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.Duration;
@@ -52,6 +50,8 @@ public class KakaoController {
 
     @GetMapping("/logout")
     public String logout(@RequestParam String accessToken) {
+        log.info(accessToken);
+
         return apiWebClient.get()
                 .uri(kakaoConfig.getApiLogout())
                 .header("Authorization", "Bearer " + accessToken)
@@ -99,12 +99,11 @@ public class KakaoController {
                 .block(Duration.ofMillis(1000));
     }
 
-    // TODO 4.18 uri 외부 설정으로 구분
     @GetMapping("/user")
     public UserInfo userInfo(@RequestParam String accessToken) {
         UserInfo userInfo = apiWebClient
                 .get()
-                .uri("v2/user/me")
+                .uri(kakaoConfig.getApiUser())
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE)
                 .header("Authorization", "Bearer " + accessToken)
                 .retrieve()

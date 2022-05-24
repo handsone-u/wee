@@ -1,4 +1,4 @@
-package com.whatweeat.wee.config;
+package com.whatweeat.wwe.config;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -17,13 +17,17 @@ public class KakaoConfig {
 
     private String restKey;
     private String redirect;
+
     private String oauthBase;
     private String apiBase;
+
     private String oauthUri;
     private String oauthAuthorise;
     private String oauthCsec;
+
     private String apiLogout;
     private String apiTokenInfo;
+    private String apiUser;
 
     @PostConstruct
     public void initValue() {
@@ -36,8 +40,7 @@ public class KakaoConfig {
         oauthCsec = env.getProperty("oauth.csec");
         apiLogout = env.getProperty("api.logout");
         apiTokenInfo = env.getProperty("api.tokenInfo");
-
-        System.out.println("this = " + this);
+        apiUser = env.getProperty("api.user");
     }
 
     public boolean hasText() {
@@ -49,6 +52,7 @@ public class KakaoConfig {
                 && StringUtils.hasText(oauthAuthorise)
                 && StringUtils.hasText(oauthCsec)
                 && StringUtils.hasText(apiLogout)
-                && StringUtils.hasText(apiTokenInfo);
+                && StringUtils.hasText(apiTokenInfo)
+                && StringUtils.hasText(apiUser);
     }
 }
