@@ -34,9 +34,8 @@ class MenuRepositoryTest {
     void save() {
         // GIVEN
         Menu menu1 = new Menu("Menu1");
-
-        MiniGameV0 game1 = new MiniGameV0(menu1, true, true, true, true, true, true, ExpenseName.EXPENSIVE1);
-        menu1.setMiniGameV0(game1);
+        MiniGameV0 game1 = new MiniGameV0(menu1, true, true, true, true,
+                true, true, ExpenseName.EXPENSIVE1);
 
         Set<Flavor> flavors = game1.getFlavors();
         Set<ExcludeFilter> excludeFilters = game1.getExcludeFilters();
@@ -55,9 +54,15 @@ class MenuRepositoryTest {
         assertThat(save.getMenuName()).isEqualTo(menu1.getMenuName());
         assertThat(save.getMiniGameV0().getId()).isNotNull();
 
+        assertThat(save.getMiniGameV0().getMenu()).isNotNull();
+
         assertThat(miniGameV0Repository.count()).isEqualTo(1);
         assertThat(flavorRepository.count()).isEqualTo(2);
         assertThat(excludeFilterRepository.count()).isEqualTo(1);
         assertThat(nationRepository.count()).isEqualTo(1);
+
+        assertThat(flavors).extracting("flavorName").containsOnly(FlavorName.BLAND, FlavorName.COOL);
+        assertThat(excludeFilters).extracting("excludeName").doesNotContain(ExcludeName.MEAT, ExcludeName.SEA);
+        assertThat(nations).extracting("nationName").containsExactly(NationName.KOR);
     }
 }
