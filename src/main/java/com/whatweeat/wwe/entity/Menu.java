@@ -22,7 +22,7 @@ public class Menu {
     private String menuImage;
     private Integer frequency;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "MINI_V0_ID")
     private MiniGameV0 miniGameV0;
 }

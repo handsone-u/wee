@@ -29,13 +29,13 @@ public class MiniGameV0 {
     @Column(name = "EXPENSE")
     private ExpenseName expenseName;
 
-    @OneToMany(mappedBy = "miniGameV0")
+    @OneToMany(mappedBy = "miniGameV0", cascade = CascadeType.PERSIST)
     private final Set<Flavor> flavors = new HashSet<>();
 
-    @OneToMany(mappedBy = "miniGameV0")
+    @OneToMany(mappedBy = "miniGameV0", cascade = CascadeType.PERSIST)
     private final Set<ExcludeFilter> excludeFilters = new HashSet<>();
 
-    @OneToMany(mappedBy = "miniGameV0")
+    @OneToMany(mappedBy = "miniGameV0", cascade = CascadeType.PERSIST)
     private final Set<Nation> nations = new HashSet<>();
 
     public MiniGameV0(Menu menu, Boolean rice, Boolean noodle, Boolean soup, Boolean healthy, Boolean instant, Boolean alcohol, ExpenseName expenseName) {
