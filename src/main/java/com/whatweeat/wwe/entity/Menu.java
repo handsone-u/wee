@@ -9,9 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@NoArgsConstructor
-@Getter
-@Setter
+@NoArgsConstructor @Getter @Setter
 public class Menu {
     @Id
     @GeneratedValue
@@ -25,4 +23,15 @@ public class Menu {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "MINI_V0_ID")
     private MiniGameV0 miniGameV0;
+
+    public Menu(String menuName) {
+        this(menuName, null, 0);
+    }
+
+    public Menu(String menuName, String menuImage, Integer frequency) {
+
+        this.menuName = menuName;
+        this.menuImage = menuImage;
+        this.frequency = frequency;
+    }
 }

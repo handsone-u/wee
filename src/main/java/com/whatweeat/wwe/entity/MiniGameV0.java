@@ -3,13 +3,14 @@ package com.whatweeat.wwe.entity;
 import com.whatweeat.wwe.entity.enums.ExpenseName;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@NoArgsConstructor @Getter
+@NoArgsConstructor @Getter @Setter
 public class MiniGameV0 {
     @Id @GeneratedValue
     @Column(name = "MINI_V0_ID")
