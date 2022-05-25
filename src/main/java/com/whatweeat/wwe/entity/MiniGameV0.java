@@ -1,6 +1,7 @@
 package com.whatweeat.wwe.entity;
 
 import com.whatweeat.wwe.entity.enums.ExpenseName;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,7 +11,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@NoArgsConstructor @Getter @Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED) @Getter @Setter
 public class MiniGameV0 {
     @Id @GeneratedValue
     @Column(name = "MINI_V0_ID")
@@ -30,13 +31,13 @@ public class MiniGameV0 {
     @Column(name = "EXPENSE")
     private ExpenseName expenseName;
 
-    @OneToMany(mappedBy = "miniGameV0", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "miniGameV0", cascade = CascadeType.ALL)
     private final Set<Flavor> flavors = new HashSet<>();
 
-    @OneToMany(mappedBy = "miniGameV0", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "miniGameV0", cascade = CascadeType.ALL)
     private final Set<ExcludeFilter> excludeFilters = new HashSet<>();
 
-    @OneToMany(mappedBy = "miniGameV0", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "miniGameV0", cascade = CascadeType.ALL)
     private final Set<Nation> nations = new HashSet<>();
 
     public MiniGameV0(Menu menu, Boolean rice, Boolean noodle, Boolean soup, Boolean healthy, Boolean instant, Boolean alcohol, ExpenseName expenseName) {
@@ -48,5 +49,6 @@ public class MiniGameV0 {
         this.instant = instant;
         this.alcohol = alcohol;
         this.expenseName = expenseName;
+        this.menu.setMiniGameV0(this);
     }
 }

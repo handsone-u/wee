@@ -1,13 +1,14 @@
 package com.whatweeat.wwe.entity;
 
 import com.whatweeat.wwe.entity.enums.NationName;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
-@NoArgsConstructor @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED) @Getter
 public class Nation {
     @Id @GeneratedValue
     @Column(name ="NATION_ID")

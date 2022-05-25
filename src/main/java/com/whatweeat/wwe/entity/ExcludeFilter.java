@@ -1,13 +1,14 @@
 package com.whatweeat.wwe.entity;
 
 import com.whatweeat.wwe.entity.enums.ExcludeName;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
-@NoArgsConstructor @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED) @Getter
 public class ExcludeFilter {
     @Id @GeneratedValue
     @Column(name = "EXCLUDE_ID")

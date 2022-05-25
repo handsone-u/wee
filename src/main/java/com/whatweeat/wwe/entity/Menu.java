@@ -20,12 +20,16 @@ public class Menu {
     private String menuImage;
     private Integer frequency;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "MINI_V0_ID")
     private MiniGameV0 miniGameV0;
 
     public Menu(String menuName) {
         this(menuName, null, 0);
+    }
+
+    public Menu(String menuName, String menuImage) {
+        this(menuName, menuImage, 0);
     }
 
     public Menu(String menuName, String menuImage, Integer frequency) {
