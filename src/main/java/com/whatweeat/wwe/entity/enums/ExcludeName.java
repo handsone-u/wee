@@ -11,7 +11,7 @@ public enum ExcludeName {
     SEA("해산물"),
     MEAT("고기");
 
-    public static ExcludeName valueOfDesc(String name) {
+    public static ExcludeName lookup(String name) {
         for (ExcludeName value : ExcludeName.values()) {
             if(value.desc.equals(name))
                 return value;

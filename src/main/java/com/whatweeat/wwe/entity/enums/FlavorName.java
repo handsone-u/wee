@@ -10,7 +10,7 @@ public enum FlavorName {
     GREASY("느끼"),
     BLAND("담백");
 
-    public static FlavorName valueOfDesc(String name) {
+    public static FlavorName lookup(String name) {
         for (FlavorName value : FlavorName.values()) {
             if(value.desc.equals(name))
                 return value;

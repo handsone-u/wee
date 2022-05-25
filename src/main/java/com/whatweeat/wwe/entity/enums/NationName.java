@@ -13,7 +13,7 @@ public enum NationName {
     EXO("이국요리"),
     ETC("기타");
 
-    public static NationName valueOfDesc(String name) {
+    public static NationName lookup(String name) {
         for (NationName value : NationName.values()) {
             if(value.desc.equals(name))
                 return value;

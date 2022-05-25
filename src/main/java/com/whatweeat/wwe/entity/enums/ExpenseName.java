@@ -11,7 +11,7 @@ public enum ExpenseName {
 
     private final String desc;
 
-    public static ExpenseName valueOfDesc(String name) {
+    public static ExpenseName lookup(String name) {
         for (ExpenseName value : ExpenseName.values()) {
             if (value.desc.equals(name)) return value;
         }
