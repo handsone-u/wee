@@ -20,7 +20,7 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor @Slf4j
 @Transactional
-public class miniGameV0Service {
+public class MiniGameV0ServiceImpl implements MiniGameService{
     private final V0GroupRepository v0GroupRepository;
     private final V0MemberRepository v0MemberRepository;
     private final int BOUND = 10000;
