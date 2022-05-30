@@ -5,7 +5,8 @@ import com.whatweeat.wwe.entity.enums.ExcludeName;
 import com.whatweeat.wwe.entity.enums.ExpenseName;
 import com.whatweeat.wwe.entity.enums.FlavorName;
 import com.whatweeat.wwe.entity.enums.NationName;
-import org.assertj.core.api.Assertions;
+import com.whatweeat.wwe.entity.mini_game_v0.V0Group;
+import com.whatweeat.wwe.entity.mini_game_v0.V0Member;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +14,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Set;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
@@ -29,8 +27,10 @@ class MenuRepositoryTest {
     @Autowired FlavorRepository flavorRepository;
     @Autowired ExcludeFilterRepository excludeFilterRepository;
     @Autowired NationRepository nationRepository;
-    @Autowired MiniGameGroupRepository miniGameGroupRepository;
-    @Autowired MiniGameMemberRepository miniGameMemberRepository;
+    @Autowired
+    V0GroupRepository v0GroupRepository;
+    @Autowired
+    V0MemberRepository v0MemberRepository;
 
     @Test @DisplayName(value = "CASCADE.persist 동작 확인")
     @Transactional
@@ -81,14 +81,14 @@ class MenuRepositoryTest {
         assertThat(nations).extracting("nationName").containsExactly(NationName.KOR);
     }
     private void saveGroup() {
-        MiniGameGroup miniGameGroup = new MiniGameGroup(1);
-        List<MiniGameMember> members = miniGameGroup.getMembers();
-        members.add(new MiniGameMember("asd", miniGameGroup, new MiniGameResultV0()));
-        members.add(new MiniGameMember("wqer", miniGameGroup, new MiniGameResultV0()));
-        miniGameGroupRepository.save(miniGameGroup);
+        V0Group v0Group = new V0Group(1);
+        List<V0Member> members = v0Group.getMembers();
+        members.add(new V0Member("asd", v0Group));
+        members.add(new V0Member("wqer", v0Group));
+        v0GroupRepository.save(v0Group);
 
-        assertThat(miniGameGroupRepository.count()).isEqualTo(1);
-        assertThat(miniGameMemberRepository.count()).isEqualTo(2);
+        assertThat(v0GroupRepository.count()).isEqualTo(1);
+        assertThat(v0MemberRepository.count()).isEqualTo(2);
     }
     private void deleteMenu() {
         Menu menu1 = new Menu("Menu1");
@@ -116,16 +116,16 @@ class MenuRepositoryTest {
         assertThat(nationRepository.count()).isEqualTo(0);
     }
     private void deleteGroup() {
-        MiniGameGroup miniGameGroup = new MiniGameGroup(1);
-        List<MiniGameMember> members = miniGameGroup.getMembers();
-        members.add(new MiniGameMember("asd", miniGameGroup, new MiniGameResultV0()));
-        members.add(new MiniGameMember("wqer", miniGameGroup, new MiniGameResultV0()));
-        MiniGameGroup save = miniGameGroupRepository.save(miniGameGroup);
+        V0Group v0Group = new V0Group(1);
+        List<V0Member> members = v0Group.getMembers();
+        members.add(new V0Member("asd", v0Group));
+        members.add(new V0Member("wqer", v0Group));
+        V0Group save = v0GroupRepository.save(v0Group);
 
         // DELETE
-        miniGameGroupRepository.delete(save);
+        v0GroupRepository.delete(save);
 
-        assertThat(miniGameMemberRepository.count()).isEqualTo(0);
-        assertThat(miniGameMemberRepository.count()).isEqualTo(0);
+        assertThat(v0MemberRepository.count()).isEqualTo(0);
+        assertThat(v0MemberRepository.count()).isEqualTo(0);
     }
 }

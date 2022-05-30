@@ -1,14 +1,13 @@
 package com.whatweeat.wwe.controller;
 
 import com.whatweeat.wwe.dto.MenuCreateDTO;
+import com.whatweeat.wwe.dto.MenuHomeResponse;
 import com.whatweeat.wwe.service.MenuService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,16 +15,23 @@ import java.util.List;
 @RestController
 @RequestMapping("/menu")
 public class MenuController {
-    private final MenuService menuService;
+    private final MenuService menuServiceImpl;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public int addMenu(@RequestBody List<MenuCreateDTO> dtos) {
         int result = 0;
         for (MenuCreateDTO dto : dtos) {
             dto.lookup();
-            menuService.save(dto);
+            menuServiceImpl.save(dto);
             result++;
         }
         return result;
+    }
+
+    @GetMapping("/random")
+    public ResponseEntity<MenuHomeResponse> home() {
+        String menuName = "실험중";
+        String menuPath = "https://cdn.imweb.me/upload/S2017032758d89cbde9730/5c344a55e5613.jpg";
+        return ResponseEntity.ok(new MenuHomeResponse(menuName, menuPath));
     }
 }

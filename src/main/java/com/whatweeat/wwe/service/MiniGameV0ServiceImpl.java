@@ -52,6 +52,7 @@ public class MiniGameV0ServiceImpl implements MiniGameService{
     }
 
     private V0Member saveMember(MiniGameResultDTO dto, V0Member member) {
+        log.info("MEMBER SAVE Token = [{}]", member.getToken());
         saveFlavors(dto.getFlavorNames(), member);
         saveExcludes(dto.getExcludeNames(), member);
         saveNations(dto.getNationNames(), member);
@@ -117,16 +118,19 @@ public class MiniGameV0ServiceImpl implements MiniGameService{
         // TODO: VALID
         // PIN 갯수 이상의 group 있다면 생성 불가능 할것.
         int groupCount = (int) v0GroupRepository.count();
+        log.info("GROUP Total Count = [{}]", groupCount);
 
         Random random = new Random(LocalDateTime.now().hashCode());
-        int id = random.nextInt(BOUND);
+        int total = random.nextInt(BOUND);
         int count = 0;
-        while (v0GroupRepository.findById(id).isPresent()) {
-            log.warn("PIN NUM : [{}] DUP, GENERATING NEW NUM", id);
-            id = random.nextInt(BOUND);
+        while (v0GroupRepository.findById(total).isPresent()) {
+            log.warn("PIN NUM : [{}] DUP, GENERATING NEW NUM", total);
+            total = random.nextInt(BOUND);
             count++;
         }
-        if(count>=LOOP_MAX) id = v0GroupRepository.getMaxId() + 1;
-        return id;
+        if(count>=LOOP_MAX) total = v0GroupRepository.getMaxId() + 1;
+
+        log.info("GROUP CREATED... PIN = [{}]", total);
+        return total;
     }
 }

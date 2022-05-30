@@ -26,7 +26,7 @@ class V0GroupServiceTest {
     @Test
     @Transactional
     void idGenerator() {
-        miniGameV0Service service = new miniGameV0Service(v0GroupRepository, v0MemberRepository);
+        MiniGameV0ServiceImpl service = new MiniGameV0ServiceImpl(v0GroupRepository, v0MemberRepository);
         service.createGroup();
         service.createGroup();
         assertThat(v0GroupRepository.count()).isEqualTo(2);
@@ -34,7 +34,7 @@ class V0GroupServiceTest {
 
     @Test @DisplayName("그룹 생성 & 그룹 참여")
     void createGroupAndJoinGroup() {
-        miniGameV0Service service = new miniGameV0Service(v0GroupRepository, v0MemberRepository);
+        MiniGameV0ServiceImpl service = new MiniGameV0ServiceImpl(v0GroupRepository, v0MemberRepository);
 
         int pin = service.createGroup();
         System.out.println("pin = " + pin);
@@ -61,7 +61,7 @@ class V0GroupServiceTest {
 
     @Test @DisplayName("그룹 제거")
     void deleteGroup() {
-        miniGameV0Service service = new miniGameV0Service(v0GroupRepository, v0MemberRepository);
+        MiniGameV0ServiceImpl service = new MiniGameV0ServiceImpl(v0GroupRepository, v0MemberRepository);
 
         int pin = service.createGroup();
         System.out.println("pin = " + pin);

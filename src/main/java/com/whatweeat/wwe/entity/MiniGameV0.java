@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -34,7 +35,7 @@ public class MiniGameV0 {
     @OneToMany(mappedBy = "miniGameV0", cascade = CascadeType.ALL)
     private final Set<Flavor> flavors = new HashSet<>();
 
-    @OneToMany(mappedBy = "miniGameV0", cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "miniGameV0")
     private final Set<ExcludeFilter> excludeFilters = new HashSet<>();
 
     @OneToMany(mappedBy = "miniGameV0", cascade = CascadeType.ALL)
