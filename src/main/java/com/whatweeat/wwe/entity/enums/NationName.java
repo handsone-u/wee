@@ -5,12 +5,12 @@ import lombok.Getter;
 
 @AllArgsConstructor @Getter
 public enum NationName {
-    KOR("한식"),
-    CONV("분식"),
-    JAP("일식"),
-    CHN("중식"),
-    WEST("양식"),
-    EXO("이국요리"),
+    KOREAN("한식"),
+    CONVENIENT("분식"),
+    JAPANESE("일식"),
+    CHINESE("중식"),
+    WESTERN("양식"),
+    EXOTIC("이국요리"),
     ETC("기타");
 
     public static NationName lookup(String name) {

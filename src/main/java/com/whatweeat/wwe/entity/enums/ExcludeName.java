@@ -6,9 +6,9 @@ import lombok.Getter;
 @AllArgsConstructor @Getter
 public enum ExcludeName {
     SPICY("매움"),
-    RAW("날것"),
-    GUT("내장"),
-    SEA("해산물"),
+    SASHIMI("날것"),
+    INTESTINE("내장"),
+    SEAFOOD("해산물"),
     MEAT("고기");
 
     public static ExcludeName lookup(String name) {
