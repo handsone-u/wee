@@ -16,6 +16,7 @@ public enum FlavorName {
     MEAT("고기");
 
     public static FlavorName lookup(String name) {
+        name = name.trim();
         for (FlavorName value : FlavorName.values()) {
             if(value.desc.equals(name))
                 return value;
