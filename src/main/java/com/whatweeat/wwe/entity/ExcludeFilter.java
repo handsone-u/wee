@@ -1,6 +1,6 @@
 package com.whatweeat.wwe.entity;
 
-import com.whatweeat.wwe.entity.enums.ExcludeName;
+import com.whatweeat.wwe.entity.enums.FlavorName;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,9 +20,9 @@ public class ExcludeFilter {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "EXCLUDE_NAME")
-    private ExcludeName excludeName;
+    private FlavorName excludeName;
 
-    public ExcludeFilter(MiniGameV0 miniGameV0, ExcludeName excludeName) {
+    public ExcludeFilter(MiniGameV0 miniGameV0, FlavorName excludeName) {
         this.miniGameV0 = miniGameV0;
         this.excludeName = excludeName;
     }

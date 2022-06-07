@@ -1,7 +1,6 @@
 package com.whatweeat.wwe.service;
 
 import com.whatweeat.wwe.dto.MiniGameResultDTO;
-import com.whatweeat.wwe.entity.enums.ExcludeName;
 import com.whatweeat.wwe.entity.enums.FlavorName;
 import com.whatweeat.wwe.entity.enums.NationName;
 import com.whatweeat.wwe.entity.mini_game_v0.*;
@@ -66,8 +65,8 @@ public class MiniGameV0ServiceImpl implements MiniGameService{
             member.addFlavor(flavor);
         }
     }
-    private void saveExcludes(Set<ExcludeName> excludeNames, V0Member member) {
-        for (ExcludeName excludeName : excludeNames) {
+    private void saveExcludes(Set<FlavorName> excludeNames, V0Member member) {
+        for (FlavorName excludeName : excludeNames) {
             V0Exclude exclude = new V0Exclude(member, excludeName);
             member.addExclude(exclude);
         }

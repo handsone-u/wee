@@ -1,6 +1,6 @@
 package com.whatweeat.wwe.entity.mini_game_v0;
 
-import com.whatweeat.wwe.entity.enums.ExcludeName;
+import com.whatweeat.wwe.entity.enums.FlavorName;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,9 +20,9 @@ public class V0Exclude {
     private V0Member member;
 
     @Enumerated
-    private ExcludeName excludeName;
+    private FlavorName excludeName;
 
-    public V0Exclude(V0Member member, ExcludeName excludeName) {
+    public V0Exclude(V0Member member, FlavorName excludeName) {
         this.member = member;
         this.excludeName = excludeName;
     }

@@ -8,7 +8,12 @@ public enum FlavorName {
     COOL("시원"),
     HOT("얼큰"),
     GREASY("느끼"),
-    BLAND("담백");
+    BLAND("담백"),
+    SPICY("매움"),
+    SASHIMI("날것"),
+    INTESTINE("내장"),
+    SEAFOOD("해산물"),
+    MEAT("고기");
 
     public static FlavorName lookup(String name) {
         for (FlavorName value : FlavorName.values()) {
