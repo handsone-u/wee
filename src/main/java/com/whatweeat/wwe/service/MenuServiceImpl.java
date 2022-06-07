@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -38,5 +39,10 @@ public class MenuServiceImpl implements MenuService {
     public Menu findById(Long id) {
         return menuRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException());
+    }
+
+    @Transactional(readOnly = true)
+    public List<Menu> findAll() {
+        return menuRepository.findAll();
     }
 }

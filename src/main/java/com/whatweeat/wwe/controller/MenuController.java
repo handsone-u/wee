@@ -1,5 +1,6 @@
 package com.whatweeat.wwe.controller;
 
+import com.whatweeat.wwe.controller.response.MenuInfo;
 import com.whatweeat.wwe.dto.MenuCreateDTO;
 import com.whatweeat.wwe.dto.MenuHomeResponse;
 import com.whatweeat.wwe.service.MenuService;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor @Slf4j
 @RestController
@@ -26,6 +28,13 @@ public class MenuController {
             result++;
         }
         return result;
+    }
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<MenuInfo> findAll() {
+        return menuServiceImpl.findAll().stream()
+                .map(MenuInfo::ofMenuInfo)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/random")
