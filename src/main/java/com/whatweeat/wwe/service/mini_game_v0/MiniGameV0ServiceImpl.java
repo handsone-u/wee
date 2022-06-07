@@ -1,11 +1,12 @@
-package com.whatweeat.wwe.service;
+package com.whatweeat.wwe.service.mini_game_v0;
 
 import com.whatweeat.wwe.dto.MiniGameResultDTO;
 import com.whatweeat.wwe.entity.enums.FlavorName;
 import com.whatweeat.wwe.entity.enums.NationName;
 import com.whatweeat.wwe.entity.mini_game_v0.*;
-import com.whatweeat.wwe.repository.V0GroupRepository;
-import com.whatweeat.wwe.repository.V0MemberRepository;
+import com.whatweeat.wwe.repository.mini_game_v0.V0GroupRepository;
+import com.whatweeat.wwe.repository.mini_game_v0.V0MemberRepository;
+import com.whatweeat.wwe.service.MiniGameService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor @Slf4j
 @Transactional
-public class MiniGameV0ServiceImpl implements MiniGameService{
+public class MiniGameV0ServiceImpl implements MiniGameService {
     private final V0GroupRepository v0GroupRepository;
     private final V0MemberRepository v0MemberRepository;
     private final int BOUND = 10000;

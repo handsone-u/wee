@@ -6,6 +6,8 @@ import com.whatweeat.wwe.entity.enums.FlavorName;
 import com.whatweeat.wwe.entity.enums.NationName;
 import com.whatweeat.wwe.entity.mini_game_v0.V0Group;
 import com.whatweeat.wwe.entity.mini_game_v0.V0Member;
+import com.whatweeat.wwe.repository.mini_game_v0.V0GroupRepository;
+import com.whatweeat.wwe.repository.mini_game_v0.V0MemberRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

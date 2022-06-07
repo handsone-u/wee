@@ -4,7 +4,8 @@ import com.whatweeat.wwe.dto.MiniGameResultDTO;
 import com.whatweeat.wwe.entity.enums.FlavorName;
 import com.whatweeat.wwe.entity.enums.NationName;
 import com.whatweeat.wwe.entity.mini_game_v0.V0Group;
-import com.whatweeat.wwe.repository.*;
+import com.whatweeat.wwe.repository.mini_game_v0.*;
+import com.whatweeat.wwe.service.mini_game_v0.MiniGameV0ServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +18,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DataJpaTest
 @ActiveProfiles("test")
 class V0GroupServiceTest {
-    @Autowired V0GroupRepository v0GroupRepository;
-    @Autowired V0MemberRepository v0MemberRepository;
-    @Autowired V0FlavorRepository flavorRepository;
-    @Autowired V0ExcludeRepository excludeRepository;
-    @Autowired V0NationRepository nationRepository;
+    @Autowired
+    V0GroupRepository v0GroupRepository;
+    @Autowired
+    V0MemberRepository v0MemberRepository;
+    @Autowired
+    V0FlavorRepository flavorRepository;
+    @Autowired
+    V0ExcludeRepository excludeRepository;
+    @Autowired
+    V0NationRepository nationRepository;
 
     @Test
     @Transactional
