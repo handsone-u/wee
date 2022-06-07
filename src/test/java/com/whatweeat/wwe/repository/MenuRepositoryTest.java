@@ -1,7 +1,6 @@
 package com.whatweeat.wwe.repository;
 
 import com.whatweeat.wwe.entity.*;
-import com.whatweeat.wwe.entity.enums.ExcludeName;
 import com.whatweeat.wwe.entity.enums.ExpenseName;
 import com.whatweeat.wwe.entity.enums.FlavorName;
 import com.whatweeat.wwe.entity.enums.NationName;
@@ -58,8 +57,8 @@ class MenuRepositoryTest {
 
         flavors.add(new Flavor(game1, FlavorName.BLAND));
         flavors.add(new Flavor(game1, FlavorName.COOL));
-        excludeFilters.add(new ExcludeFilter(game1, ExcludeName.GUT));
-        nations.add(new Nation(game1, NationName.KOR));
+        excludeFilters.add(new ExcludeFilter(game1, FlavorName.INTESTINE));
+        nations.add(new Nation(game1, NationName.KOREAN));
 
         // WHEN
         Menu save = menuRepository.save(menu1);
@@ -77,8 +76,8 @@ class MenuRepositoryTest {
         assertThat(nationRepository.count()).isEqualTo(1);
 
         assertThat(flavors).extracting("flavorName").containsOnly(FlavorName.BLAND, FlavorName.COOL);
-        assertThat(excludeFilters).extracting("excludeName").doesNotContain(ExcludeName.MEAT, ExcludeName.SEA);
-        assertThat(nations).extracting("nationName").containsExactly(NationName.KOR);
+        assertThat(excludeFilters).extracting("excludeName").doesNotContain(FlavorName.MEAT, FlavorName.SEAFOOD);
+        assertThat(nations).extracting("nationName").containsExactly(NationName.KOREAN);
     }
     private void saveGroup() {
         V0Group v0Group = new V0Group(1);
@@ -101,8 +100,8 @@ class MenuRepositoryTest {
 
         flavors.add(new Flavor(game1, FlavorName.BLAND));
         flavors.add(new Flavor(game1, FlavorName.COOL));
-        excludeFilters.add(new ExcludeFilter(game1, ExcludeName.GUT));
-        nations.add(new Nation(game1, NationName.KOR));
+        excludeFilters.add(new ExcludeFilter(game1, FlavorName.INTESTINE));
+        nations.add(new Nation(game1, NationName.KOREAN));
 
         Menu save = menuRepository.save(menu1);
 

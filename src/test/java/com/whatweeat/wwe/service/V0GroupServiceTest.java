@@ -1,7 +1,7 @@
 package com.whatweeat.wwe.service;
 
 import com.whatweeat.wwe.dto.MiniGameResultDTO;
-import com.whatweeat.wwe.entity.enums.ExcludeName;
+import com.whatweeat.wwe.entity.enums.FlavorName;
 import com.whatweeat.wwe.entity.enums.NationName;
 import com.whatweeat.wwe.entity.mini_game_v0.V0Group;
 import com.whatweeat.wwe.repository.*;
@@ -51,10 +51,10 @@ class V0GroupServiceTest {
         assertThat(flavorRepository.count()).isEqualTo(0);
         assertThat(excludeRepository.count()).isEqualTo(1);
         assertThat(excludeRepository.findAll()).extracting("excludeName")
-                .containsExactly(ExcludeName.GUT);
+                .containsExactly(FlavorName.INTESTINE);
         assertThat(nationRepository.count()).isEqualTo(2);
         assertThat(nationRepository.findAll()).extracting("nationName")
-                .containsOnly(NationName.KOR, NationName.EXO);
+                .containsOnly(NationName.KOREAN, NationName.EXOTIC);
 
         assertThat(save.getId()).isEqualTo(pin);
     }
@@ -96,9 +96,9 @@ class V0GroupServiceTest {
                 .pin(pin)
                 .token("hello")
                 .build();
-        hello.getExcludeNames().add(ExcludeName.GUT);
-        hello.getNationNames().add(NationName.KOR);
-        hello.getNationNames().add(NationName.EXO);
+        hello.getExcludeNames().add(FlavorName.INTESTINE);
+        hello.getNationNames().add(NationName.KOREAN);
+        hello.getNationNames().add(NationName.EXOTIC);
         return hello;
     }
 }
