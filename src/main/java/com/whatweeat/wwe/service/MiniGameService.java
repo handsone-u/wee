@@ -12,6 +12,8 @@ public interface MiniGameService {
 
     void deleteGroup(int pin);
 
+    void deleteMember(String token, Integer pin);
+
     boolean pinValidCheck(int id);
 
     int countMember(int id);

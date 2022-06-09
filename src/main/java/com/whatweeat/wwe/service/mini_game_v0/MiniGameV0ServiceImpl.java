@@ -94,6 +94,15 @@ public class MiniGameV0ServiceImpl implements MiniGameService {
         v0GroupRepository.delete(v0Group);
     }
 
+    public void deleteMember(String token, Integer pin) {
+        V0Group v0Group = v0GroupRepository.findById(pin)
+                .orElseThrow(() -> new RuntimeException());
+        V0Member v0Member = v0MemberRepository.findByTokenAndGroup(token, v0Group)
+                .orElseThrow(() -> new RuntimeException());
+
+        v0Group.removeMember(v0Member);
+    }
+
     public boolean pinValidCheck(int id) {
         return v0GroupRepository.findById(id).isPresent();
     }
