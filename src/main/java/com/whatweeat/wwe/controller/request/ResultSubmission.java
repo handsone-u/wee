@@ -2,13 +2,16 @@ package com.whatweeat.wwe.controller.request;
 
 import com.whatweeat.wwe.entity.enums.FlavorName;
 import com.whatweeat.wwe.entity.mini_game_v0.V0Member;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Data @Builder
+@NoArgsConstructor @AllArgsConstructor
 public class ResultSubmission {
     private GameAnswer gameAnswer;
     private Integer pinNumber;
