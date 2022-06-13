@@ -35,7 +35,7 @@ class V0GroupServiceCRUDTest {
 
     @Test
     void idGenerator() {
-        MiniGameV0ServiceImpl service = new MiniGameV0ServiceImpl(null, v0GroupRepository, v0MemberRepository);
+        MiniGameV0ServiceImpl service = new MiniGameV0ServiceImpl(null, v0GroupRepository, v0MemberRepository, null);
         service.createGroup();
         service.createGroup();
         assertThat(v0GroupRepository.count()).isEqualTo(2);
@@ -43,7 +43,7 @@ class V0GroupServiceCRUDTest {
 
     @Test @DisplayName("그룹 유효 확인")
     void groupPinNumValidCheck() {
-        MiniGameV0ServiceImpl service = new MiniGameV0ServiceImpl(null, v0GroupRepository, v0MemberRepository);
+        MiniGameV0ServiceImpl service = new MiniGameV0ServiceImpl(null, v0GroupRepository, v0MemberRepository, null);
 
         int pin1 = service.createGroup();
         int pin2 = service.createGroup();
@@ -57,7 +57,7 @@ class V0GroupServiceCRUDTest {
 
     @Test @DisplayName("그룹 생성 & 그룹 참여")
     void createGroupAndJoinGroup() {
-        MiniGameV0ServiceImpl service = new MiniGameV0ServiceImpl(null, v0GroupRepository, v0MemberRepository);
+        MiniGameV0ServiceImpl service = new MiniGameV0ServiceImpl(null, v0GroupRepository, v0MemberRepository,null);
 
         int pin = service.createGroup();
         System.out.println("pin = " + pin);
@@ -83,7 +83,7 @@ class V0GroupServiceCRUDTest {
 
     @Test @DisplayName("그룹 제거")
     void deleteGroup() {
-        MiniGameV0ServiceImpl service = new MiniGameV0ServiceImpl(null, v0GroupRepository, v0MemberRepository);
+        MiniGameV0ServiceImpl service = new MiniGameV0ServiceImpl(null, v0GroupRepository, v0MemberRepository, null);
 
         int pin = service.createGroup();
         System.out.println("pin = " + pin);
@@ -113,7 +113,7 @@ class V0GroupServiceCRUDTest {
 
     @Test @DisplayName("그룹-멤버 검색")
     void findMember() {
-        MiniGameV0ServiceImpl service = new MiniGameV0ServiceImpl(null, v0GroupRepository, v0MemberRepository);
+        MiniGameV0ServiceImpl service = new MiniGameV0ServiceImpl(null, v0GroupRepository, v0MemberRepository,null);
 
         int pinNum = service.createGroup();
 
@@ -137,7 +137,7 @@ class V0GroupServiceCRUDTest {
 
     @Test @DisplayName("멤버 제거")
     void deleteMember() {
-        MiniGameService service = new MiniGameV0ServiceImpl(null, v0GroupRepository, v0MemberRepository);
+        MiniGameService service = new MiniGameV0ServiceImpl(null, v0GroupRepository, v0MemberRepository, null);
 
         assertThat(v0GroupRepository.count()).isEqualTo(0);
         int pinNum = service.createGroup();
