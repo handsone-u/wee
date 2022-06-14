@@ -2,11 +2,7 @@ package com.whatweeat.wwe.service.mini_game_v0;
 
 import com.whatweeat.wwe.controller.request.ResultSubmission;
 import com.whatweeat.wwe.dto.MenuPoint;
-import com.whatweeat.wwe.entity.Flavor;
 import com.whatweeat.wwe.entity.Menu;
-import com.whatweeat.wwe.entity.MiniGameV0;
-import com.whatweeat.wwe.entity.Nation;
-import com.whatweeat.wwe.entity.enums.ExpenseName;
 import com.whatweeat.wwe.entity.enums.FlavorName;
 import com.whatweeat.wwe.entity.enums.NationName;
 import com.whatweeat.wwe.entity.mini_game_v0.V0Exclude;
@@ -19,13 +15,11 @@ import com.whatweeat.wwe.service.MenuService;
 import com.whatweeat.wwe.service.MiniGameService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor @Slf4j
@@ -93,25 +87,19 @@ public class MiniGameV0ServiceImpl implements MiniGameService {
         V0Group v0Group = v0GroupRepository.findById(pin)
                 .orElseThrow(() -> new RuntimeException()); // 없는 그룹 예외
         List<V0Member> members = v0Group.getMembers();
+        Set<FlavorName> groupExclude = new HashSet<>();
 
         // 못 먹는 음식 제외 조회
-        Set<FlavorName> groupExclude = new HashSet<>();
-        members.forEach(m -> m.getExcludes().forEach(
-                exclude -> groupExclude.add(exclude.getExcludeName())));
+        members.forEach(m -> m.getExcludes().forEach(exclude -> groupExclude.add(exclude.getExcludeName())));
         List<Menu> menus = menuServiceImpl.findAllExceptFlavorNames(groupExclude);
 
+        // 메뉴 점수화
         List<MenuPoint> result = new ArrayList<>(menus.size());
         for (Menu menu : menus) { // N
-            String menuName = menu.getMenuName();
-            String menuURL = menu.getMenuImage();
-            double point = 0;
+            MenuPoint menuPoint = menuCalculatorV0.calculate(menu.getMiniGameV0(), members);
 
-            for (V0Member memberResult : members) { // M
-                if(!memberResult.getComplete()) continue;
-                point += menuCalculatorV0.calculateV0(menu.getMiniGameV0(), memberResult);
-            }
-            log.debug("MENU Name:[{}] Point=[{}]", menuName, point);
-            result.add(new MenuPoint(menuName, menuURL, point));
+            log.debug("MENU Name:[{}] Point=[{}]", menuPoint.getMenuName(), menuPoint.getPoint());
+            result.add(menuPoint);
         }
         result.sort(Comparator.reverseOrder());
         return result;
@@ -167,154 +155,5 @@ public class MiniGameV0ServiceImpl implements MiniGameService {
 
         log.debug("GROUP CREATED... PIN = [{}]", total);
         return total;
-    }
-
-    @Component
-    public static class MenuCalculatorV0 implements MenuCalculator{
-        private final double POSITIVE = 1;
-        private final double NEGATIVE = -1;
-
-        public double calculateV0(MiniGameV0 menuV0, V0Member member) {
-            double point = 0;
-            point += hangover(menuV0, member);
-            point += greasy(menuV0, member);
-            point += health(menuV0, member);
-            point += alcohol(menuV0, member);
-            point += instant(menuV0, member);
-            point += spicy(menuV0, member);
-            point += rich(menuV0, member);
-            point += riceNoodleSoup(menuV0, member);
-            point += nation(menuV0, member);
-            return point;
-        }
-
-        private double hangover(MiniGameV0 menu, V0Member member) {
-            double point = 0;
-            if(member.getHangover()==null) {
-                log.trace("KEYWORD1 해장 상관없음...");
-                return point;
-            }
-            Set<FlavorName> flavorNames = menu.getFlavors().stream()
-                    .map(Flavor::getFlavorName)
-                    .collect(Collectors.toSet());
-            if(flavorNames.containsAll(Set.of(FlavorName.COOL, FlavorName.HOT)))
-                point += 2 * (member.getHangover() ? POSITIVE : NEGATIVE);
-            else if(flavorNames.contains(FlavorName.COOL)||flavorNames.contains(FlavorName.HOT))
-                point += member.getHangover() ? POSITIVE : NEGATIVE;
-            log.trace("KEYWORD1 해장 점수:[{}]", point);
-            return point;
-        }
-
-        private double greasy(MiniGameV0 menu, V0Member member) {
-            double point = 0;
-            if (member.getGreasy() == null) {
-                log.trace("KEYWORD2 기름칠 상관없음...");
-                return point;
-            }
-            Set<FlavorName> flavorNames = menu.getFlavors().stream()
-                    .map(Flavor::getFlavorName)
-                    .collect(Collectors.toSet());
-            if(flavorNames.contains(FlavorName.GREASY))
-                point += member.getGreasy() ? POSITIVE : NEGATIVE;
-            log.trace("KEYWORD2 기름칠 점수:[{}]", point);
-            return point;
-        }
-
-        private double health(MiniGameV0 menu, V0Member member) {
-            double point = 0;
-            if (member.getHealth() == null) {
-                log.trace("KEYWORD3 건강 상관없음...");
-                return point;
-            }
-            point += menu.getHealthy() == member.getHealth() ? POSITIVE : NEGATIVE;
-            log.trace("KEYWORD3 건강 점수:[{}]", point);
-            return point;
-        }
-
-        private double alcohol(MiniGameV0 menu, V0Member member) {
-            double point = 0;
-            if (member.getAlcohol() == null) {
-                log.trace("KEYWORD4 안주 상관없음...");
-                return point;
-            }
-            point += menu.getAlcohol() == member.getAlcohol() ? POSITIVE : NEGATIVE;
-            log.trace("KEYWORD4 안주 점수:[{}]", point);
-            return point;
-        }
-
-        private double instant(MiniGameV0 menu, V0Member member) {
-            double point = 0;
-            if (member.getInstant() == null) {
-                log.trace("KEYWORD5 간편 상관없음...");
-                return point;
-            }
-            point += menu.getInstant() == member.getInstant() ? POSITIVE : NEGATIVE;
-            log.trace("KEYWORD5 간편 점수:[{}]", point);
-            return point;
-        }
-
-        private double spicy(MiniGameV0 menu, V0Member member) {
-            double point = 0;
-            if (member.getSpicy() == null) {
-                log.trace("KEYWORD6 매콤 상관없음...");
-                return point;
-            }
-            Set<FlavorName> flavorNames = menu.getFlavors().stream()
-                    .map(Flavor::getFlavorName)
-                    .collect(Collectors.toSet());
-            if(flavorNames.contains(FlavorName.SPICY))
-                point += member.getSpicy() ? POSITIVE : NEGATIVE;
-            else
-                point += member.getSpicy() ? NEGATIVE : POSITIVE;
-            log.trace("KEYWORD6 매콤 점수:[{}]", point);
-            return point;
-        }
-
-        private double rich(MiniGameV0 menu, V0Member member) {
-            double point = 0;
-            if (member.getRich() == null) {
-                log.trace("KEYWORD7 돈 걱정 상관 없음...");
-            }
-            if(menu.getExpenseName()==null)
-                point += member.getRich() ? NEGATIVE : POSITIVE;
-            else if(menu.getExpenseName().equals(ExpenseName.EXPENSIVE2))
-                point += 2 * (member.getRich() ? POSITIVE : NEGATIVE);
-            else if(menu.getExpenseName().equals(ExpenseName.EXPENSIVE1))
-                point += member.getRich() ? POSITIVE : NEGATIVE;
-            log.trace("KEYWORD7 돈 걱정 점수:[{}]", point);
-            return point;
-        }
-
-        private double riceNoodleSoup(MiniGameV0 menu, V0Member member) {
-            double point = 0;
-            if (member.getRice() == null && member.getNoodle() == null && member.getSoup() == null) {
-                log.trace("KEYWORD8 밥면국 상관없음...");
-                return point;
-            }
-            point += menu.getRice() == member.getRice() ? POSITIVE : NEGATIVE;
-            point += menu.getNoodle() == member.getNoodle() ? POSITIVE : NEGATIVE;
-            point += menu.getSoup() == member.getSoup() ? POSITIVE : NEGATIVE;
-            log.trace("KEYWORD8 밥면국 점수:[{}]", point);
-            return point;
-        }
-
-        private double nation(MiniGameV0 menu, V0Member member) {
-            double point = 0;
-            if (member.getNations().isEmpty()) {
-                log.trace("KEYWORD9 음식 종류 상관없음...");
-                return point;
-            }
-            Set<NationName> menuSet = menu.getNations().stream()
-                    .map(Nation::getNationName)
-                    .collect(Collectors.toSet());
-            Set<NationName> memberSet = member.getNations().stream()
-                    .map(V0Nation::getNationName)
-                    .collect(Collectors.toSet());
-            menuSet.retainAll(memberSet);
-            point += menuSet.size();
-            log.trace("KEYWORD9 음식 종류 점수:[{}]", point);
-            return point;
-        }
-
     }
 }
