@@ -43,7 +43,7 @@ class MiniGameV0ServiceTest {
 
     @BeforeEach
     void init() {
-        menuCalculatorV0 = new MiniGameV0ServiceImpl.MenuCalculatorV0();
+        menuCalculatorV0 = new MenuCalculatorV0(new KeywordsCollector());
         menuService = new MenuServiceImpl(menuRepository);
         miniGameService = new MiniGameV0ServiceImpl(menuService, v0GroupRepository, v0MemberRepository, menuCalculatorV0);
     }
@@ -64,10 +64,10 @@ class MiniGameV0ServiceTest {
         V0Group v0Group = miniGameService.saveResult(user1);
 
         System.out.println("라멘");
-        assertThat(menuCalculatorV0.calculateV0(menu1.getMiniGameV0(), v0Group.getMembers().get(0)))
+        assertThat(menuCalculatorV0.calculate(menu1.getMiniGameV0(), v0Group.getMembers()).getPoint())
                 .isEqualTo(4);
         System.out.println("냉면");
-        assertThat(menuCalculatorV0.calculateV0(menu2.getMiniGameV0(), v0Group.getMembers().get(0)))
+        assertThat(menuCalculatorV0.calculate(menu2.getMiniGameV0(), v0Group.getMembers()).getPoint())
                 .isEqualTo(6);
     }
 

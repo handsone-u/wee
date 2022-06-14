@@ -11,6 +11,7 @@ import com.whatweeat.wwe.repository.mini_game_v0.V0GroupRepository;
 import com.whatweeat.wwe.repository.mini_game_v0.V0MemberRepository;
 import com.whatweeat.wwe.repository.mini_game_v0.V0NationRepository;
 import com.whatweeat.wwe.service.mini_game_v0.MiniGameV0ServiceImpl;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,18 +25,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DataJpaTest
 @ActiveProfiles("test")
 class V0GroupServiceCRUDTest {
-    @Autowired
-    V0GroupRepository v0GroupRepository;
-    @Autowired
-    V0MemberRepository v0MemberRepository;
-    @Autowired
-    V0ExcludeRepository v0excludeRepository;
-    @Autowired
-    V0NationRepository v0nationRepository;
+    MiniGameV0ServiceImpl service;
+
+    @Autowired V0GroupRepository v0GroupRepository;
+    @Autowired V0MemberRepository v0MemberRepository;
+    @Autowired V0ExcludeRepository v0excludeRepository;
+    @Autowired V0NationRepository v0nationRepository;
+
+    @BeforeEach
+    void init() {
+        service = new MiniGameV0ServiceImpl(null, v0GroupRepository, v0MemberRepository, null);
+    }
 
     @Test
     void idGenerator() {
-        MiniGameV0ServiceImpl service = new MiniGameV0ServiceImpl(null, v0GroupRepository, v0MemberRepository, null);
         service.createGroup();
         service.createGroup();
         assertThat(v0GroupRepository.count()).isEqualTo(2);
@@ -43,8 +46,6 @@ class V0GroupServiceCRUDTest {
 
     @Test @DisplayName("그룹 유효 확인")
     void groupPinNumValidCheck() {
-        MiniGameV0ServiceImpl service = new MiniGameV0ServiceImpl(null, v0GroupRepository, v0MemberRepository, null);
-
         int pin1 = service.createGroup();
         int pin2 = service.createGroup();
         int pin3 = (pin1 + pin2) / 2;
@@ -57,8 +58,6 @@ class V0GroupServiceCRUDTest {
 
     @Test @DisplayName("그룹 생성 & 그룹 참여")
     void createGroupAndJoinGroup() {
-        MiniGameV0ServiceImpl service = new MiniGameV0ServiceImpl(null, v0GroupRepository, v0MemberRepository,null);
-
         int pin = service.createGroup();
         System.out.println("pin = " + pin);
         assertThat(v0GroupRepository.count()).isEqualTo(1);
@@ -83,8 +82,6 @@ class V0GroupServiceCRUDTest {
 
     @Test @DisplayName("그룹 제거")
     void deleteGroup() {
-        MiniGameV0ServiceImpl service = new MiniGameV0ServiceImpl(null, v0GroupRepository, v0MemberRepository, null);
-
         int pin = service.createGroup();
         System.out.println("pin = " + pin);
         assertThat(v0GroupRepository.count()).isEqualTo(1);
@@ -113,8 +110,6 @@ class V0GroupServiceCRUDTest {
 
     @Test @DisplayName("그룹-멤버 검색")
     void findMember() {
-        MiniGameV0ServiceImpl service = new MiniGameV0ServiceImpl(null, v0GroupRepository, v0MemberRepository,null);
-
         int pinNum = service.createGroup();
 
         ResultSubmission resultSubmission = makeDTO("find", pinNum);
@@ -137,8 +132,6 @@ class V0GroupServiceCRUDTest {
 
     @Test @DisplayName("멤버 제거")
     void deleteMember() {
-        MiniGameService service = new MiniGameV0ServiceImpl(null, v0GroupRepository, v0MemberRepository, null);
-
         assertThat(v0GroupRepository.count()).isEqualTo(0);
         int pinNum = service.createGroup();
         assertThat(v0GroupRepository.count()).isEqualTo(1);
