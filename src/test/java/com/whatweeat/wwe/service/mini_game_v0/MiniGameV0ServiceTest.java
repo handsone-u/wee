@@ -58,7 +58,7 @@ class MiniGameV0ServiceTest {
         List<GameAnswer> answers = answers();
         ResultSubmission user1 = ResultSubmission.builder()
                 .gameAnswer(answers.get(0))
-                .pinNumber(pinNum)
+                .pinNumber(Integer.toString(pinNum))
                 .token("user1")
                 .build();
         V0Group v0Group = miniGameService.saveResult(user1);

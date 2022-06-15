@@ -44,7 +44,7 @@ public class MiniGameV0ServiceImpl implements MiniGameService {
     }
 
     public V0Group saveResult(ResultSubmission dto) {
-        V0Group group = v0GroupRepository.findById(dto.getPinNumber())
+        V0Group group = v0GroupRepository.findById(Integer.parseInt(dto.getPinNumber()))
                 .orElseThrow(() -> new RuntimeException()); // 없는 그룹 예외
 
         return saveGroup(dto, group);
@@ -77,6 +77,29 @@ public class MiniGameV0ServiceImpl implements MiniGameService {
             V0Nation nation = new V0Nation(member, nationName);
             member.addNation(nation);
         }
+    }
+
+    @Transactional(readOnly = true)
+    public List<MenuPoint> getSoloResult(ResultSubmission resultSubmission) {
+        log.debug("SOLO 추론 시작");
+
+        V0Member v0Member = resultSubmission.toV0Member();
+        saveExcludes(resultSubmission.getDislikedFoods(), v0Member);
+        saveNations(resultSubmission.getGameAnswer().getNation(), v0Member);
+        Set<FlavorName> groupExclude = new HashSet<>();
+
+        v0Member.getExcludes().forEach(exclude -> groupExclude.add(exclude.getExcludeName()));
+        List<Menu> menus = menuServiceImpl.findAllExceptFlavorNames(groupExclude);
+
+        List<MenuPoint> result = new ArrayList<>(menus.size());
+        for (Menu menu : menus) {
+            MenuPoint menuPoint = menuCalculatorV0.calculate(menu.getMiniGameV0(), List.of(v0Member));
+
+            log.debug("MENU Name:[{}] Point=[{}]", menuPoint.getMenuName(), menuPoint.getPoint());
+            result.add(menuPoint);
+        }
+        result.sort(Comparator.reverseOrder());
+        return result;
     }
 
     @Transactional(readOnly = true)

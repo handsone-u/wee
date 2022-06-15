@@ -14,7 +14,7 @@ import java.util.Set;
 @NoArgsConstructor @AllArgsConstructor
 public class ResultSubmission {
     private GameAnswer gameAnswer;
-    private Integer pinNumber;
+    private String pinNumber;
     private String token;
     private final Set<FlavorName> dislikedFoods = new HashSet<>();
 

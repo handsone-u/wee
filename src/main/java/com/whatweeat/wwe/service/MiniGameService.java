@@ -11,6 +11,8 @@ public interface MiniGameService {
 
     V0Group saveResult(ResultSubmission dto);
 
+    List<MenuPoint> getSoloResult(ResultSubmission resultSubmission);
+
     List<MenuPoint> getGroupResult(int pin);
 
     void deleteGroup(int pin);

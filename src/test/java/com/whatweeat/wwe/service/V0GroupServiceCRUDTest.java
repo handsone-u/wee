@@ -89,7 +89,7 @@ class V0GroupServiceCRUDTest {
 
         ResultSubmission hello = makeDTO("hello", pin);
         ResultSubmission bye = ResultSubmission.builder()
-                .pinNumber(pin)
+                .pinNumber(Integer.toString(pin))
                 .token("bye")
                 .gameAnswer(GameAnswer.builder().build())
                 .build();
@@ -166,7 +166,7 @@ class V0GroupServiceCRUDTest {
         gameAnswer.getNation().addAll(Set.of(NationName.KOREAN, NationName.EXOTIC));
         ResultSubmission resultSubmission = ResultSubmission.builder()
                 .gameAnswer(gameAnswer)
-                .pinNumber(pin)
+                .pinNumber(Integer.toString(pin))
                 .token(token)
                 .build();
         resultSubmission.getDislikedFoods().add(FlavorName.INTESTINE);
