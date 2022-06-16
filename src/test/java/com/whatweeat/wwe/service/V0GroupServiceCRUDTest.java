@@ -18,6 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.util.List;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -31,6 +34,8 @@ class V0GroupServiceCRUDTest {
     @Autowired V0MemberRepository v0MemberRepository;
     @Autowired V0ExcludeRepository v0excludeRepository;
     @Autowired V0NationRepository v0nationRepository;
+
+    @PersistenceContext EntityManager entityManager;
 
     @BeforeEach
     void init() {
@@ -63,21 +68,43 @@ class V0GroupServiceCRUDTest {
         assertThat(v0GroupRepository.count()).isEqualTo(1);
         assertThat(v0MemberRepository.count()).isEqualTo(0);
 
-        ResultSubmission hello = makeDTO("hello", pin);
+        ResultSubmission hello = makeDTO("hello", pin,
+                Set.of(NationName.KOREAN, NationName.EXOTIC),
+                Set.of(FlavorName.INTESTINE, FlavorName.SEAFOOD));
 
+        System.out.println("SAVING");
         V0Group save = service.saveResult(hello);
+
+        assertThat(save.getId()).isEqualTo(pin);
         assertThat(v0GroupRepository.count()).isEqualTo(1);
         assertThat(v0MemberRepository.count()).isEqualTo(1);
         assertThat(v0MemberRepository.findAll()).extracting("complete")
                 .containsOnly(true);
-        assertThat(v0excludeRepository.count()).isEqualTo(1);
+        assertThat(v0excludeRepository.count()).isEqualTo(2);
         assertThat(v0excludeRepository.findAll()).extracting("excludeName")
-                .containsExactly(FlavorName.INTESTINE);
+                .containsOnly(FlavorName.INTESTINE, FlavorName.SEAFOOD);
         assertThat(v0nationRepository.count()).isEqualTo(2);
         assertThat(v0nationRepository.findAll()).extracting("nationName")
                 .containsOnly(NationName.KOREAN, NationName.EXOTIC);
 
-        assertThat(save.getId()).isEqualTo(pin);
+        System.out.println("NON FETCH");
+        entityManager.flush();
+        entityManager.clear();
+        List<V0Member> alls = v0MemberRepository.findAll();
+        for (V0Member all : alls) {
+            all.getExcludes().forEach(System.out::println);
+            all.getNations().forEach(System.out::println);
+        }
+
+        System.out.println("FETCH JOIN --- V0Nation, V0Exclude 까지 한번에 조회해야 함.");
+        entityManager.flush();
+        entityManager.clear();
+        List<V0Member> members = v0MemberRepository.findAllByGroup_id(pin);
+        for (V0Member member : members) {
+            member.getExcludes().forEach(System.out::println);
+            member.getNations().forEach(System.out::println);
+        }
+        assertThat(members.size()).isEqualTo(1);
     }
 
     @Test @DisplayName("그룹 제거")
@@ -87,7 +114,7 @@ class V0GroupServiceCRUDTest {
         assertThat(v0GroupRepository.count()).isEqualTo(1);
         assertThat(v0MemberRepository.count()).isEqualTo(0);
 
-        ResultSubmission hello = makeDTO("hello", pin);
+        ResultSubmission hello = makeDTO("hello", pin,Set.of(NationName.KOREAN, NationName.EXOTIC), Set.of(FlavorName.INTESTINE));
         ResultSubmission bye = ResultSubmission.builder()
                 .pinNumber(Integer.toString(pin))
                 .token("bye")
@@ -112,7 +139,7 @@ class V0GroupServiceCRUDTest {
     void findMember() {
         int pinNum = service.createGroup();
 
-        ResultSubmission resultSubmission = makeDTO("find", pinNum);
+        ResultSubmission resultSubmission = makeDTO("find", pinNum,Set.of(NationName.KOREAN, NationName.EXOTIC), Set.of(FlavorName.INTESTINE));
         V0Group group = service.saveResult(resultSubmission);
         group = v0GroupRepository.findById(group.getId())
                 .orElseThrow(RuntimeException::new);
@@ -128,6 +155,9 @@ class V0GroupServiceCRUDTest {
         assertThat(member.getHealth()).isNull();
         assertThat(member.getNations()).extracting("nationName")
                 .containsOnly(NationName.KOREAN, NationName.EXOTIC);
+
+        List<V0Member> members = v0MemberRepository.findAllByGroup_id(group.getId());
+        assertThat(members.size()).isEqualTo(1);
     }
 
     @Test @DisplayName("멤버 제거")
@@ -136,7 +166,7 @@ class V0GroupServiceCRUDTest {
         int pinNum = service.createGroup();
         assertThat(v0GroupRepository.count()).isEqualTo(1);
 
-        ResultSubmission dto = makeDTO("hello", pinNum);
+        ResultSubmission dto = makeDTO("hello", pinNum,Set.of(NationName.KOREAN, NationName.EXOTIC), Set.of(FlavorName.INTESTINE));
         V0Group group = service.saveResult(dto);
         V0Member member = group.getMembers().get(0);
         assertThat(v0MemberRepository.count()).isEqualTo(1);
@@ -155,7 +185,7 @@ class V0GroupServiceCRUDTest {
         assertThat(v0nationRepository.count()).isEqualTo(0);
     }
 
-    private ResultSubmission makeDTO(String token, int pin) {
+    private ResultSubmission makeDTO(String token, int pin, Set<NationName> nationNames, Set<FlavorName> flavorNames) {
         GameAnswer gameAnswer = GameAnswer.builder()
                 .alcohol(true)
                 .greasy(true)
@@ -163,13 +193,13 @@ class V0GroupServiceCRUDTest {
                 .rice(false)
                 .health(null)
                 .build();
-        gameAnswer.getNation().addAll(Set.of(NationName.KOREAN, NationName.EXOTIC));
+        gameAnswer.getNation().addAll(nationNames);
         ResultSubmission resultSubmission = ResultSubmission.builder()
                 .gameAnswer(gameAnswer)
                 .pinNumber(Integer.toString(pin))
                 .token(token)
                 .build();
-        resultSubmission.getDislikedFoods().add(FlavorName.INTESTINE);
+        resultSubmission.getDislikedFoods().addAll(flavorNames);
         return resultSubmission;
     }
 }
