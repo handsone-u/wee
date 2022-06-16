@@ -126,11 +126,12 @@ class MenuServiceImplTest {
 
         assertThat(menuService.count()).isEqualTo(3);
 
-        System.out.println("------");
+        System.out.println("------1");
         List<Menu> result = menuService.findAllExceptFlavorNames(Set.of(MEAT));
         assertThat(result.size()).isEqualTo(1);
         assertThat(result).extracting("menuName").containsExactly("찌개/전골류 (김치/순두부/부대찌개)");
 
+        System.out.println("------2");
         result = menuService.findAllExceptFlavorNames(Set.of(SEAFOOD, SPICY));
         assertThat(result.size()).isEqualTo(1);
         assertThat(result).extracting("menuName").containsExactly("족발/보쌈");
