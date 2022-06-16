@@ -43,6 +43,10 @@ public class MiniGameV0ServiceImpl implements MiniGameService {
         return v0Group.getId();
     }
 
+    public List<V0Group> getAllGroup() {
+        return v0GroupRepository.findAll();
+    }
+
     public V0Group saveResult(ResultSubmission dto) {
         V0Group group = v0GroupRepository.findById(Integer.parseInt(dto.getPinNumber()))
                 .orElseThrow(() -> new RuntimeException()); // 없는 그룹 예외
@@ -148,12 +152,14 @@ public class MiniGameV0ServiceImpl implements MiniGameService {
         return v0GroupRepository.findById(id).isPresent();
     }
 
+    @Transactional(readOnly = true)
     public int countMember(int id) {
         V0Group v0Group = v0GroupRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException()); // 없는 그룹 예외
         return v0Group.getMembers().size();
     }
 
+    @Transactional(readOnly = true)
     public int countCompleteMember(int id) {
         V0Group v0Group = v0GroupRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException()); // 없는 그룹 예외

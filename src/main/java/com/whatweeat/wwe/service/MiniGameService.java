@@ -11,6 +11,8 @@ public interface MiniGameService {
 
     V0Group saveResult(ResultSubmission dto);
 
+    List<V0Group> getAllGroup();
+
     List<MenuPoint> getSoloResult(ResultSubmission resultSubmission);
 
     List<MenuPoint> getGroupResult(int pin);
