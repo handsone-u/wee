@@ -1,8 +1,8 @@
 package com.whatweeat.wwe.dto;
 
-import com.whatweeat.wwe.entity.enums.ExpenseName;
-import com.whatweeat.wwe.entity.enums.FlavorName;
-import com.whatweeat.wwe.entity.enums.NationName;
+import com.whatweeat.wwe.minigame.domain.form.ExpenseName;
+import com.whatweeat.wwe.minigame.domain.form.FlavorName;
+import com.whatweeat.wwe.minigame.domain.form.NationName;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -3,7 +3,7 @@ package com.whatweeat.wwe.repository;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.whatweeat.wwe.entity.Menu;
-import com.whatweeat.wwe.entity.enums.FlavorName;
+import com.whatweeat.wwe.minigame.domain.form.FlavorName;
 
 import javax.persistence.EntityManager;
 import java.util.Collection;
@@ -14,14 +14,13 @@ import static com.whatweeat.wwe.entity.QMenu.menu;
 import static com.whatweeat.wwe.entity.QMiniGameV0.miniGameV0;
 import static com.whatweeat.wwe.entity.QNation.nation;
 
-public class MenuQDslRepositoryImpl implements MenuQDslRepository{
+public class MenuQDslRepositoryImpl {
     private final JPAQueryFactory jpaQueryFactory;
 
     public MenuQDslRepositoryImpl(EntityManager entityManager) {
         this.jpaQueryFactory = new JPAQueryFactory(entityManager);
     }
 
-    @Override
     public List<Menu> findAllFlavorNameNotIn(Collection<FlavorName> flavorNames) {
         return jpaQueryFactory.select(menu)
                 .from(menu)

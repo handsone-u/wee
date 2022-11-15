@@ -1,13 +1,12 @@
 package com.whatweeat.wwe.entity;
 
-import com.whatweeat.wwe.entity.enums.FlavorName;
+import com.whatweeat.wwe.minigame.domain.form.FlavorName;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED) @Getter
 public class Flavor {
     @Id @GeneratedValue

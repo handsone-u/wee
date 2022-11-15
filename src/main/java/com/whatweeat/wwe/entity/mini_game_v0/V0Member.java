@@ -9,7 +9,6 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
 @NoArgsConstructor @Getter @Setter
 public class V0Member extends BaseEntity {
     @Id @GeneratedValue

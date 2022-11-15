@@ -1,6 +1,6 @@
 package com.whatweeat.wwe.entity;
 
-import com.whatweeat.wwe.entity.enums.ExpenseName;
+import com.whatweeat.wwe.minigame.domain.form.ExpenseName;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +10,6 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED) @Getter @Setter
 public class MiniGameV0 {
     @Id @GeneratedValue

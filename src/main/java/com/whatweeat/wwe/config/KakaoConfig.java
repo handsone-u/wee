@@ -2,16 +2,14 @@ package com.whatweeat.wwe.config;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
 
-@Configuration
+//@Configuration
 @RequiredArgsConstructor @Data
-@PropertySource("classpath:kakao.properties")
+//@PropertySource("classpath:kakao.properties")
 public class KakaoConfig {
     private final Environment env;
 
