@@ -1,14 +1,11 @@
 package com.whatweeat.wwe.entity.mini_game_v0;
 
-import com.whatweeat.wwe.entity.enums.FlavorName;
+import com.whatweeat.wwe.minigame.domain.form.FlavorName;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 
-@Entity
-@NoArgsConstructor
 @Getter @Setter
 public class V0Exclude {
     @Id @GeneratedValue

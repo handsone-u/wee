@@ -1,7 +1,7 @@
 package com.whatweeat.wwe.repository;
 
 import com.whatweeat.wwe.entity.Menu;
-import com.whatweeat.wwe.entity.enums.FlavorName;
+import com.whatweeat.wwe.minigame.domain.form.FlavorName;
 
 import java.util.Collection;
 import java.util.List;

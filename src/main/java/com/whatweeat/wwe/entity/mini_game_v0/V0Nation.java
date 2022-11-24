@@ -1,13 +1,12 @@
 package com.whatweeat.wwe.entity.mini_game_v0;
 
-import com.whatweeat.wwe.entity.enums.NationName;
+import com.whatweeat.wwe.minigame.domain.form.NationName;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 
-@Entity
 @NoArgsConstructor
 @Getter @Setter
 public class V0Nation {
