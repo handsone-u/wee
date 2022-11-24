@@ -4,6 +4,8 @@ HELP.md
 kakao.properties
 application-prod.properties
 build/
+*.csv
+*.json
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
